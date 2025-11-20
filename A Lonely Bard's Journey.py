@@ -85,7 +85,7 @@ playerMarked = False
 instrumentPlayed = False
 playerSpared = False
 reflectedInPond = False
-
+encounteredCreature = False
 
 
 # ---------------------------------------------------------------------- Define Continue Button --------------------------------------------------------------------
@@ -288,6 +288,14 @@ def indecisiveEnding():
     response = input().lower()
     if response == "yes":
         gameover = False
+        # Reset player status variables for a new game
+        playerMarked = False
+        instrumentPlayed = False
+        playerSpared = False
+        reflectedInPond = False
+        #Restart the game
+        Begin()
+    #End game if player chooses not to play again
     else:
         sys.exit()       
 
@@ -382,6 +390,7 @@ def hauntedChoice():
             narratorSays("As the nightmarish melody fades into a whisper, you can only hope this was the right choice.")
             sleep(1)
             continuePrompt()
+            liquidChoice()
 
         elif pathChoice == "3":
             indecisiveEnding()
@@ -641,7 +650,7 @@ def liquidChoice():
                     sleep(1)
                     narratorSays("You see flashes of a life once lived, filled with music, laughter, and love.")
                     sleep(1)
-                    importantSays("Then it fade")
+                    importantSays("Then it fades")
                     sleep(2)
                     importantSays("And you along with it")
                     sleep(2)
@@ -665,7 +674,34 @@ def liquidChoice():
                         sleep(1)
                         continuePrompt()
                         cavernOfBlood()
+            elif not encounteredCreature:
+                narratorSays("You cautiously approach the pond, drawn by its mysterious allure.")
+                sleep(1)
+                narratorSays("As you peer into the water, you see your reflection staring back at you.")
+                sleep(1)
+                narratorSays("With a deep breath, you reach out and touch the water's surface, feeling a soothing energy course through your body.")
+                sleep(1)
+                narratorSays("For a moment, you feel as if the pond is willing to grant you bits and pieces of your framgmented memories.")
+                sleep(1)
+                narratorSays("\nJust as you begin to feel hopeful, you suddenly lose your balance and slip into the pond.")
+                sleep(1)
+                narratorSays("The water envelops you, its cool embrace sending a shiver down your spine.")
+                sleep(1)
+                narratorSays("As you struggle to find your bearings, you feel a strange warmth spreading through your body.")
+                sleep(1)
+                narratorSays("You see flashes of a life once lived, filled with music, laughter, and love.")
+                sleep(1)
+                narratorSays("Then it fades")
+                sleep(2)
+                narratorSays("Not having succumbed to the creature's influence earlier, you feel no change within yourself and swim back to the surface and back to land.")
+                sleep(2)
+                playerSays("I guess a little dip in the pond never hurt anyone.")
+                sleep(1)
+                reflectedInPond = True
+                narratorSays("You spend what feels like an hour drying off and gathering your thoughts then march forward with renewed determination.")
+                continuePrompt()
 
+                cavernOfBlood() 
             
 
         elif pondChoice == "2":
@@ -837,6 +873,58 @@ def cavernOfBlood():
             importantSays("This time, there was no escape.")
             sleep(1)
 
+            simpleGameOver()
+    elif not encounteredCreature:
+        narratorSays("\nAs you continue your journey, you stumble upon a cavern pulsating with a sinister energy.")
+        sleep(1)
+        narratorSays("Though you feel uneasy, you decide to enter the cavern against your own will.")
+        sleep(1)
+        narratorSays("As soon as you step foot inside, the air thickens with the scent of iron and decay.")
+        sleep(1)
+        narratorSays("You want to turn back, but your pure mind is clouded with an unshakable compulsion.")
+        continuePrompt()
+        sleep(1)
+        narratorSays("The walls made of flesh and bone, seemingly tossed together with viscous liquid, oozed with each pulse.")
+        sleep(1)
+        narratorSays(f"You begin to lose yourself in the cavern's nightmarish embrace when suddenly your {selected_instrument} vibrates softly.")
+        sleep(1)
+        narratorSays("You desperately reach for it even though you know it won't help.")
+        # ======= Prompt 11 Play Instrument in Cavern? =========
+        systemSays(f"Will you play your {selected_instrument}?")
+        systemSays("1) Yes")
+        systemSays("2) No")
+        choice = input("What is your choice:")
+        if choice == "1":
+            sleep(1)
+            narratorSays(f"With a final effort, you attempt to play a tune on your {selected_instrument}.")
+            sleep(1)
+            narratorSays("But all that comes out is a discordant noise that echoes through the cavern.")
+            sleep(1)
+            narratorSays("The cavern seems to respond to your failed attempt at music, the walls pulsating ominously as you hear the sound of dripping liquid growing louder.")
+            sleep(1)
+            narratorSays("You hold your breath and hug the walls, hoping to avoid whatever horrors lurk within.")
+            sleep(1)
+            importantSays("But it was no use.")
+            sleep(3)
+            importantSays("The grotesque amalgamation of flesh and blood that had spared you earlier found you.")
+            sleep(1)
+            importantSays("This time, there was no escape.")
+            sleep(1)
+            simpleGameOver()
+
+        elif choice == "2":
+            narratorSays(f"You decide against playing your {selected_instrument}, feeling that it won't help in this situation.")
+            sleep(1)
+            importantSays("Then you hear it.")
+            sleep(1)
+            importantSays("A horrid sound of flesh and bone sliding across the ground.")
+            sleep(1)
+            importantSays("You freeze, fear crippling your thoughts as this grotesque amalgamation of flesh and blood emerges from the shadows.")
+            sleep(1)
+            importantSays("Before you have time to react, it lunges at you.")
+            sleep(1)
+            importantSays("Escape was never an option.")
+            sleep(1)
             simpleGameOver()
 
 #------------------------------------------------------------------------ Define End Scene----------------------------------------------------------------------------
