@@ -54,7 +54,7 @@ def slowPrint(
             ",": 0.7,
             ";": 0.35,
             ":": 0.35,
-            "!": 0.,
+            "!": 0.0,
             "?": 0.7,
             "…": 0.9,
         }
@@ -80,6 +80,14 @@ def slowPrint(
     sys.stdout.write(end)
     sys.stdout.flush()
 
+#------------------------------------------------------------Define player status variables --------------------------------------------------------------
+playerMarked = False
+instrumentPlayed = False
+playerSpared = False
+reflectedInPond = False
+encounteredCreature = False
+
+
 # ---------------------------------------------------------------------- Define Continue Button --------------------------------------------------------------------
 def continuePrompt(prompt="\n[Press Enter to continue]"):
     slowPrint(prompt, base_delay=0.0, jitter=0.0, color="system")
@@ -104,7 +112,6 @@ def setTextSpeed():
         systemSays("Invalid choice. Setting to default (Medium).")
         textSpeed = 0.04
     systemSays(f"Text speed set to {['Slow', 'Medium', 'Fast'][int(choice)-1] if choice in ['1','2','3'] else 'Medium'}.")
-
 
 # ------------------------------------------------------------Define text Speed for different characters ------------------------------------------------------------
 def narratorSays(text):
@@ -160,14 +167,14 @@ def displaySongsAndEffects(songs, effects):
 
 # ------------------------------------------------------------------Define selected instrument choice ----------------------------------------------------------------
 def chooseInstrument():
-    instruments = ["Lute", "Harp", "Flute","Drum"]
+    global selected_instrument
+    instruments = ["Lute", "Harp", "Flute", "Drum"]
     systemSays("What is beside you?:")
     systemSays("1) A Lute")
     systemSays("2) A Harp")
     systemSays("3) A Flute")
     systemSays("4) A Drum")
     choice = input("Choose an instrument: ")
-    global selected_instrument
     if choice == "1":
         selected_instrument = "Lute"
     elif choice == "2":
@@ -186,7 +193,6 @@ def playerName():
     sleep(2)    
     playerName = input("Enter your name: ")
 
-
     narratorSays("\nYou think to yourself")
     sleep(1)
     playerSays(f"\n{playerName}... Yes, that sounds right! I think I'm {playerName}...")
@@ -199,6 +205,7 @@ def playerName():
 instrumentPlayed = False
 
 def playInstrument():
+    global instrumentPlayed
     systemSays(f"\nDo you wish to play your {selected_instrument} to try and soothe your mind?")
     systemSays("1) Yes")
     systemSays("2) No")
@@ -220,7 +227,6 @@ def playInstrument():
         sleep(2)
         continuePrompt()
 
-        global instrumentPlayed
         instrumentPlayed = True
     elif choice == "2":
         narratorSays(f"You decide against playing your {selected_instrument} for now, you do not wish to draw attention to yourself.")
@@ -230,8 +236,8 @@ def playInstrument():
 
 #------------------------------------------------------------------------ Define Game Over Scenarios -------------------------------------------------------------------
 
-
 def indecisiveEnding():
+    global playerMarked, instrumentPlayed, playerSpared, reflectedInPond
 
     gameoverEnding = ["1", "2", "3"]
 
@@ -282,7 +288,12 @@ def indecisiveEnding():
     if response == "yes":
         gameover = False
         # Reset player status variables for a new game
-        runGame()
+        playerMarked = False
+        instrumentPlayed = False
+        playerSpared = False
+        reflectedInPond = False
+        #Restart the game
+        Begin()
     #End game if player chooses not to play again
     else:
         sys.exit()       
@@ -389,6 +400,10 @@ def hauntedChoice():
             
 #-------------------------------------------------------------Define Choosing Option 1: Follow the Haunting Melody --------------------------------------------------------------------------
 def followMelody():
+    global playerMarked, playerSpared, encounteredCreature
+
+    encounteredCreature = True
+
     narratorSays("With each step closer, the melody intensifies as if growing in anticipation of your arrival. \nEnchanting, Embracing, Indulging your six senses with notes that felt like honey dripping from a chalice of shadows.")
     sleep(2)
     narratorSays("Then you see it")
@@ -474,7 +489,6 @@ def followMelody():
         sleep(1)
         importantSays("But why do you feel so heavy?")
 
-        global playerMarked
         playerMarked = True
         continuePrompt()
         liquidChoice()
@@ -500,6 +514,7 @@ def followMelody():
 
 #--------------------------------------------------------------------- Define Pond Scene ---------------------------------------------------------------------------
 def liquidChoice():
+    global reflectedInPond, playerMarked, playerSpared, encounteredCreature
 
     narratorSays("\nThough the grotesque creature was gone, you didn't dare linger and decided it was best to keep moving.")
     sleep(3)
@@ -547,7 +562,7 @@ def liquidChoice():
                 narratorSays("Your gaze lingers on your reflection, a mix of fear and sadness welling up inside you.")
                 sleep(1)
 
-                    # ====== Prompt 7  Look into the pond further? =========
+                # ====== Prompt 7  Look into the pond further? =========
                 systemSays("Do you wish to continue looking into the pond?")
                 systemSays("1) Yes")
                 systemSays("2) No")
@@ -595,7 +610,6 @@ def liquidChoice():
                         continuePrompt()
                         cavernOfBlood()
 
-                global reflectedInPond
                 reflectedInPond = True
                 continuePrompt()
 
@@ -612,7 +626,6 @@ def liquidChoice():
                 sleep(1)
                 narratorSays("Your gaze lingers on your reflection")
                 sleep(1)
-                global reflectedInPond
                 reflectedInPond = True
                 continuePrompt()
 
@@ -686,7 +699,6 @@ def liquidChoice():
                 sleep(2)
                 playerSays("I guess a little dip in the pond never hurt anyone.")
                 sleep(1)
-                global reflectedInPond
                 reflectedInPond = True
                 narratorSays("You spend what feels like an hour drying off and gathering your thoughts then march forward with renewed determination.")
                 continuePrompt()
@@ -709,6 +721,7 @@ def liquidChoice():
         systemSays("2) Ignore the pond and continue on your journey.")
         systemSays("3) Undecided/Stay put and observe surroundings.")
         pondChoice = input("What is your choice:")
+
 #-------------------------------------------------------Define Scene: Cavern of Blood ---------------------------------------------------------------------------
 def cavernOfBlood():
     if playerMarked and reflectedInPond:
@@ -924,25 +937,18 @@ def endScene():
     importantSays("Thank you for playing A Lonely Bard's Journey!")
     sleep(2)
     importantSays("Stay tuned for Chapter 2!")
+
 # ----------------------------------------------------------------------- Main Game Loop ---------------------------------------------------------------------------
 def runGame():
-
-
     global selected_instrument
-    global encounteredCreature
-    global playerMarked
-    global playerSpared
-    global reflectedInPond
-
+    global encounteredCreature, playerMarked, playerSpared, reflectedInPond, instrumentPlayed
 
     encounteredCreature = False
     playerMarked = False
     playerSpared = False
     reflectedInPond = False
     instrumentPlayed = False
-
-
-
+    
     titleIntro()
     setTextSpeed()
     Begin()
@@ -950,4 +956,8 @@ def runGame():
     liquidChoice()
     cavernOfBlood()
     endScene()
-    
+
+
+# actually start the game
+if __name__ == "__main__":
+    runGame()
