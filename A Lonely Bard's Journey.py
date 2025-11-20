@@ -80,14 +80,6 @@ def slowPrint(
     sys.stdout.write(end)
     sys.stdout.flush()
 
-#------------------------------------------------------------Define player status variables --------------------------------------------------------------
-playerMarked = False
-instrumentPlayed = False
-playerSpared = False
-reflectedInPond = False
-encounteredCreature = False
-
-
 # ---------------------------------------------------------------------- Define Continue Button --------------------------------------------------------------------
 def continuePrompt(prompt="\n[Press Enter to continue]"):
     slowPrint(prompt, base_delay=0.0, jitter=0.0, color="system")
@@ -201,7 +193,7 @@ def playerName():
     sleep(1)
     narratorSays("\nYou feel a momentary wave of relief as you clutch onto this small fragment of identity you created.\nThough you know it feels wrong.")
     sleep(1)
-    continuePrompt
+    continuePrompt()
 
 #--------------------------------------------------------Define Playing Instrument Choice ----------------------------------------------------------------------
 instrumentPlayed = False
@@ -228,6 +220,7 @@ def playInstrument():
         sleep(2)
         continuePrompt()
 
+        global instrumentPlayed
         instrumentPlayed = True
     elif choice == "2":
         narratorSays(f"You decide against playing your {selected_instrument} for now, you do not wish to draw attention to yourself.")
@@ -289,12 +282,7 @@ def indecisiveEnding():
     if response == "yes":
         gameover = False
         # Reset player status variables for a new game
-        playerMarked = False
-        instrumentPlayed = False
-        playerSpared = False
-        reflectedInPond = False
-        #Restart the game
-        Begin()
+        runGame()
     #End game if player chooses not to play again
     else:
         sys.exit()       
@@ -310,11 +298,9 @@ def simpleGameOver():
 
     # Reset player status variables for a new game
     if response == "yes":
-        playerMarked = False
-        instrumentPlayed = False
-        playerSpared = False
-        reflectedInPond = False
         gameover = False
+        runGame()
+
     #End game if player chooses not to play again
     else:
         sys.exit()
@@ -488,6 +474,7 @@ def followMelody():
         sleep(1)
         importantSays("But why do you feel so heavy?")
 
+        global playerMarked
         playerMarked = True
         continuePrompt()
         liquidChoice()
@@ -608,6 +595,7 @@ def liquidChoice():
                         continuePrompt()
                         cavernOfBlood()
 
+                global reflectedInPond
                 reflectedInPond = True
                 continuePrompt()
 
@@ -624,6 +612,7 @@ def liquidChoice():
                 sleep(1)
                 narratorSays("Your gaze lingers on your reflection")
                 sleep(1)
+                global reflectedInPond
                 reflectedInPond = True
                 continuePrompt()
 
@@ -697,6 +686,7 @@ def liquidChoice():
                 sleep(2)
                 playerSays("I guess a little dip in the pond never hurt anyone.")
                 sleep(1)
+                global reflectedInPond
                 reflectedInPond = True
                 narratorSays("You spend what feels like an hour drying off and gathering your thoughts then march forward with renewed determination.")
                 continuePrompt()
@@ -935,11 +925,29 @@ def endScene():
     sleep(2)
     importantSays("Stay tuned for Chapter 2!")
 # ----------------------------------------------------------------------- Main Game Loop ---------------------------------------------------------------------------
-titleIntro()
-setTextSpeed()
-Begin()
-hauntedChoice()
-liquidChoice()
-cavernOfBlood()
-endScene()
+def runGame():
+
+
+    global selected_instrument
+    global encounteredCreature
+    global playerMarked
+    global playerSpared
+    global reflectedInPond
+
+
+    encounteredCreature = False
+    playerMarked = False
+    playerSpared = False
+    reflectedInPond = False
+    instrumentPlayed = False
+
+
+
+    titleIntro()
+    setTextSpeed()
+    Begin()
+    hauntedChoice()
+    liquidChoice()
+    cavernOfBlood()
+    endScene()
     
