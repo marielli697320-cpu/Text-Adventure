@@ -231,6 +231,8 @@ def playInstrument():
     elif choice == "2":
         narratorSays(f"You decide against playing your {selected_instrument} for now, you do not wish to draw attention to yourself.")
         sleep(1)
+        narratorSays("Maybe it's for the best, you can always try again later.")
+        systemSays(f"You put your {selected_instrument} away")
         continuePrompt()
 
 
@@ -387,6 +389,7 @@ def hauntedChoice():
             narratorSays("As the nightmarish melody fades into a whisper, you can only hope this was the right choice.")
             sleep(1)
             continuePrompt()
+
             liquidChoice()
 
         elif pathChoice == "3":
@@ -516,15 +519,23 @@ def followMelody():
 def liquidChoice():
     global reflectedInPond, playerMarked, playerSpared, encounteredCreature
 
-    narratorSays("\nThough the grotesque creature was gone, you didn't dare linger and decided it was best to keep moving.")
+    narratorSays("\nWith the threat of the siren's song long gone, you pause for a moment... you have been in this odd yet everchanging land for what feels like an eternity" \
+    " and are still in one piece!")
+    sleep(2)
+    playerSays("\nI'll drink to that once I get out of this hell hole.")
     sleep(3)
+    narratorSays("\nWith a slight shift in your wit and the sanity to back it, you decide to not linger around here any longer than necessary.")
+    sleep(1)
     continuePrompt()
-    narratorSays("\n After what felt like hours of wandering through the surreal landscape, you stumble upon a serene pond nestled amidst the twisted flora.")
+
+    narratorSays("\nAfter what felt like hours of wandering through the bizarre almost surreal landscape, you stumble upon a serene pond nestled amidst the twisted flora.")
     sleep(1)
     narratorSays("The water's surface shimmered with an otherworldly glow, reflecting the swirling patterns of the sky above.")
     sleep(1)
     if playerMarked:
         narratorSays("You notice a faint, eerie glow emanating from beneath the water's surface, as if something was calling out to you from the depths.")
+        sleep(1)
+        playerSays("\nWhy do I feel a sense of deja vu?")
         sleep(1)
     elif playerSpared:
         narratorSays("The pond seems to radiate a calming energy, its tranquil waters inviting you to take a moment of respite from your harrowing journey.")
@@ -532,6 +543,7 @@ def liquidChoice():
         narratorSays("You feel compelled to approach the pond, drawn by its mysterious allure.")
         sleep(1)
         continuePrompt()
+
     # ====== Prompt 6  Choose Pond Interaction =========
     systemSays("\nWhat will you do?")
     systemSays("1) Approach the pond and look into its depths.")
@@ -596,30 +608,41 @@ def liquidChoice():
                     if playerMarked:
                         narratorSays("You feel a deep sense of dread begin settling in your chest as your warped flesh shifts uneasily.")
                         sleep(1)
-                        narratorSays("Was this new flesh of yours warning you? Or was it reeling back in fear?")
+                        narratorSays("Was this new flesh of yours already attempting to help you? Or was it reeling back in fear?")
+                        sleep(1)
+                        narratorSays("You wish to rip this disgusting flesh off your body... \nBut deep down, you know, you would just be ripping your skin till you bleed out.")
+                        sleep(1)
+                        playerSays("\nWhat can I even do anymore...")
+                        sleep(3)
+                        narratorSays("\nThe thought lingers as dread weighs down on you harder and harder.")
+                        sleep(1)
+                        narratorSays("You turn and walk away from the pond, feeling that you've had enough.")
+                        sleep(1)
+                        narratorSays("Each step growing heavier as you head down the only and possibly last path you'll ever walk.")
                         sleep(1)
                         continuePrompt()
 
                         cavernOfBlood()
 
                     elif playerSpared:
-                        narratorSays("You decide to look away from the pond, feeling that you've had enough for now.")
-                        sleep(1)
-                        narratorSays("As you turn away, you feel a sense of peace wash over you, grateful for the brief respite the pond provided.")
+                        narratorSays("You decide to look away from the pond, though you would have loved to keep staring, you knew it was time to move on.")
+                        sleep(2)
+                        narratorSays("\nAs you turn away, you feel a sense of peace wash over you, and a sense of gratitude for the brief respite the pond provided.")
                         sleep(1)
                         continuePrompt()
+
                         cavernOfBlood()
 
                 reflectedInPond = True
                 continuePrompt()
 
             elif playerSpared:
-                narratorSays("You approach the pond, captivated by its tranquil beauty.")
+                narratorSays("You approach the pond, captivated by its surviving beauty amidst the broken land.")
                 sleep(1)
                 narratorSays("As you gaze into the water, you see your reflection staring back at you.")
                 sleep(1)
-                narratorSays("Though you seem unchanged, you can't help but feel as if that could change at any moment.")
-                sleep(1)
+                narratorSays("Though you seem unchanged, you can't help but feel uneasy. All it takes is one wrong decision.")
+                sleep(3)
                 narratorSays("With a deep breath, you reach out and touch the water's surface, feeling a soothing energy course through your body.")
                 sleep(1)
                 narratorSays("For a moment, you feel a sense of clarity and purpose, as if the pond has granted you a brief respite from the chaos of this strange land.")
@@ -676,6 +699,7 @@ def liquidChoice():
                         sleep(1)
                         continuePrompt()
                         cavernOfBlood()
+
             elif not encounteredCreature:
                 narratorSays("You cautiously approach the pond, drawn by its mysterious allure.")
                 sleep(1)
@@ -709,9 +733,12 @@ def liquidChoice():
         elif pondChoice == "2":
             narratorSays("You decide to ignore the pond, feeling that it holds no significance for you.")
             sleep(1)
+            narratorSays("...")
+            sleep(2)
             narratorSays("As you turn away, you can't help but feel a sense of unease, wondering what secrets the pond might have held.")
             sleep(1)
             continuePrompt()
+            cavernOfBlood()
 
         elif pondChoice == "3":
             indecisiveEnding()
@@ -899,16 +926,19 @@ def cavernOfBlood():
     elif not encounteredCreature:
         narratorSays("\nAs you continue your journey, you stumble upon a cavern pulsating with a sinister energy.")
         sleep(1)
-        narratorSays("Though you feel uneasy, you decide to enter the cavern against your own will.")
+        narratorSays("Though you feel uneasy, you decide to enter the cavern against your own good judgment.")
+        sleep(3)
+        narratorSays("\nAs soon as you step foot inside, the air thickens with the scent of iron and decay.")
         sleep(1)
-        narratorSays("As soon as you step foot inside, the air thickens with the scent of iron and decay.")
-        sleep(1)
-        narratorSays("You want to turn back, but your pure mind is clouded with an unshakable compulsion.")
+        narratorSays("You want to turn back")
+        sleep(2)
+        importantSays("but your pure mind is clouded with an unshakable compulsion.")
         continuePrompt()
         sleep(1)
-        narratorSays("The walls made of flesh and bone, seemingly tossed together with viscous liquid, oozed with each pulse.")
+        importantSays("The walls made of flesh and bone, seemingly slathered together with viscous liquid, oozes with each pulse.")
         sleep(1)
-        narratorSays(f"You begin to lose yourself in the cavern's nightmarish embrace when suddenly your {selected_instrument} vibrates softly.")
+        importantSays("You begin to lose yourself in the cavern's nightmarish embrace") 
+        narratorSays(f"when suddenly... your {selected_instrument} vibrates softly.")
         sleep(1)
         narratorSays("You desperately reach for it even though you know it won't help.")
         # ======= Prompt 11 Play Instrument in Cavern? =========
@@ -924,7 +954,7 @@ def cavernOfBlood():
             sleep(1)
             narratorSays("The cavern seems to respond to your failed attempt at music, the walls pulsating ominously as you hear the sound of dripping liquid growing louder.")
             sleep(1)
-            narratorSays("You hold your breath and hug the walls, hoping to avoid whatever horrors lurk within.")
+            narratorSays("You hold your breath and hug the walls, hoping to avoid whatever horror lurks within.")
             sleep(1)
             importantSays("But it was no use.")
             sleep(3)
